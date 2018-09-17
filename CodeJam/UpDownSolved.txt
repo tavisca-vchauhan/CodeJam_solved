@@ -1,0 +1,68 @@
+using System;
+
+namespace CodeJam
+{
+    class UpDown
+    {
+        public int LongestUpDown(int[] sequence)
+        {
+            int length = sequence.Length,count=1, index,preValue=0;
+            int[] array = new int[length];
+            for (index = 0; index < length - 1; index++)
+            {
+                if (sequence[index + 1] - sequence[index] > 0)
+                {
+                    array[index] = 2;
+                    preValue = 2;
+                }
+                else if (sequence[index + 1] - sequence[index] < 0)
+                {
+                    array[index] = 1;
+                    preValue = 1;
+                }
+                else if(sequence[index + 1] - sequence[index] ==0)
+                {
+                    array[index] = preValue;
+                    
+                }
+                //Console.Write(" "+array[index]);
+            }
+            preValue = 0;
+            for(index=0;index<array.Length;index++)
+            {
+                if(array[index]==2 && array[index]!=preValue )
+                {
+                    count++;
+                }
+                else if(array[index]==1 && array[index] != preValue )
+                {
+                    count++;
+                }
+                preValue = array[index];
+            }
+
+            return count;
+        }
+
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            UpDown upDown = new UpDown();
+            String input = Console.ReadLine();
+            try
+            {
+                do
+                {
+                    int[] sequence = Array.ConvertAll<string, int>(input.Split(','), delegate (string s) { return Int32.Parse(s); });
+                    Console.WriteLine(upDown.LongestUpDown(sequence));
+                    input = Console.ReadLine();
+                } while (input != "-1");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(String.Format("{0} for input: {1}", ex.Message, input));
+            }
+        }
+        #endregion
+    }
+}

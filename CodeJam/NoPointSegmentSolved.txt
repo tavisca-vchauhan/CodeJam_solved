@@ -1,0 +1,233 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Codejam
+{
+    class NoPointSegment
+    {
+        public string Intersection(int[] seg1, int[] seg2)
+        {
+            int X11 = seg1[0], X12 = seg1[2], Y11 = seg1[1], Y12 = seg1[3];
+            int X21 = seg2[0], X22 = seg2[2], Y21 = seg2[1], Y22 = seg2[3], X1max, X2max, Y1max, Y2max, Xmax, Ymax, X1min, Y1min, X2min, Y2min;
+            double X1_const, X2_const;
+            if (X12 - X11 != 0)
+                X1_const = (Y12 - Y11) / (X12 - X11);
+            else
+                X1_const = 0.0000001;
+            if (X22 - X21 != 0)
+                X2_const = (Y22 - Y21) / (X22 - X21);
+            else
+                X2_const = 0.0000001;           
+            if (X1_const == X2_const)
+            {
+
+                if (X1_const == 0)
+                {
+                    if (Y11 != Y22)
+                        return "NO";
+                    if (X11 > X12)
+                    {
+                        X1max = X11;
+                        X1min = X12;
+                    }
+                    else
+                    {
+                        X1max = X12;
+                        X1min = X11;
+                    }
+                    if (X21 > X22)
+                    {
+                        X2max = X21;
+                        X2min = X22;
+                    }
+                    else
+                    {
+                        X2max = X22;
+                        X2min = X21;
+                    }
+                    Xmax = (X2max > X1max) ? X2max : X1max;
+                    if (Xmax == X2max)
+                    {
+                        if (X2min > X1min && X2min > X1max)
+                        {
+                            return "NO";
+                        }
+                        else if (X2min == X1max)
+                        {
+                            return "POINT";
+                        }
+                        else if (X2min > X1min || X2min < X1max || X2min < X1min)
+                        {
+                            return "SEGMENT";
+                        }
+                    }
+                    else if (Xmax == X1max)
+                    {
+                        if (X1min > X2min && X1min > X2max)
+                        {
+                            return "NO";
+                        }
+                        else if (X1min == X2max)
+                        {
+                            return "POINT";
+                        }
+                        else if (X1min > X2min || X1min < X2max || X1min < X2min)
+                        {
+                            return "SEGMENT";
+                        }
+                    }
+                }
+                else if (X1_const == 1E-07)
+                {
+                    if (X11 != X22)
+                        return "NO";                 
+                    if (Y11 > Y12)
+                    {
+                        Y1max = Y11;
+                        Y1min = Y12;
+                    }
+                    else
+                    {
+                        Y1max = Y12;
+                        Y1min = Y11;
+                    }
+                    if (Y21 > Y22)
+                    {
+                        Y2max = Y21;
+                        Y2min = Y22;
+                    }
+                    else
+                    {
+                        Y2max = Y22;
+                        Y2min = Y21;
+                    }
+                    if (Y11 - Y21 == 0 && Y1min==Y2max )
+                    {
+                        return "POINT";
+                    }
+                    Ymax = (Y2max > Y1max) ? Y2max : Y1max;
+                    if (Ymax == Y2max)
+                    {
+                        if (Y1max == Y1min)
+                            return "POINT";
+                        if (Y1min > Y2min && Y2min < Y1max)
+                            return "SEGMENT";
+                        if (Y2min > Y1min && Y2min > Y1max)
+                        {
+                            return "NO";
+                        }                        
+                        else if ((Y2min > Y1min && Y2min < Y1max) || Y2min < Y1min)
+                        {
+                            return "SEGMENT";
+                        }
+                        else if (Y11 == Y21 && Y12 == Y22)
+                            return "SEGMENT";
+                    }
+                    else if (Ymax == Y1max)
+                    {
+                        if (Y2max == Y2min)
+                            return "POINT";
+                        if (Y2min > Y1min && Y2max > Y1min)
+                            return "SEGMENT";
+                        if (Y1min > Y2min && Y1min > Y2max)
+                        {
+                            return "NO";
+                        }                       
+                        else if ((Y1min > Y2min && Y1min < Y2max) || Y1min < Y2min)
+                        {
+                            return "SEGMENT";
+                        }
+                        else if (Y11 == Y21 && Y12 == Y22)
+                            return "SEGMENT";
+                    }
+                    if (Y1min == Y2min || Y1max == Y2max || Y1min==Y2max || Y1max==Y2min)
+                        return "POINT";
+                }
+
+
+            }
+            else if (X2_const != X1_const)
+            {
+                if (X2_const == 0)
+                {
+                    if (X21 > X22)
+                    {
+                        X2max = X21;
+                        X2min = X22;
+                    }
+                    else
+                    {
+                        X2max = X22;
+                        X2min = X21;
+                    }
+                    if (Y11 > Y12)
+                    {
+                        Y1max = Y11;
+                        Y1min = Y12;
+                    }
+                    else
+                    {
+                        Y1max = Y12;
+                        Y1min = Y11;
+                    }
+                    if (X11 >= X2min && X11 <= X2max && Y21 >= Y1min && Y21 <= Y1max)
+                    {
+                        return "POINT";
+                    }
+                    else
+                        return "NO";
+
+                }
+                else if (X1_const == 0)
+                {
+                    if (X11 > X12)
+                    {
+                        X1max = X11;
+                        X1min = X12;
+                    }
+                    else
+                    {
+                        X1max = X12;
+                        X1min = X11;
+                    }
+                    if (Y21 > Y22)
+                    {
+                        Y2max = Y21;
+                        Y2min = Y22;
+                    }
+                    else
+                    {
+                        Y2max = Y22;
+                        Y2min = Y21;
+                    }
+                        if (X21 >= X1min && X21 <= X1max && Y11 >= Y2min && Y11 <= Y2max)
+                        {
+                            return "POINT";
+                        }
+                        else
+                            return "NO";
+                }
+            }
+            return string.Empty;
+        }
+
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            string input = Console.ReadLine();
+            NoPointSegment solver = new NoPointSegment();
+            do
+            {
+                var segments = input.Split('|');
+                var segParts = segments[0].Split(',');
+                var seg1 = new int[4] { int.Parse(segParts[0]), int.Parse(segParts[1]), int.Parse(segParts[2]), int.Parse(segParts[3]) };
+                segParts = segments[1].Split(',');
+                var seg2 = new int[4] { int.Parse(segParts[0]), int.Parse(segParts[1]), int.Parse(segParts[2]), int.Parse(segParts[3]) };
+                Console.WriteLine(solver.Intersection(seg1, seg2));
+                input = Console.ReadLine();
+            } while (input != "-1");
+        }
+        #endregion
+    }
+}

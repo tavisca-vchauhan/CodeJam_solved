@@ -1,0 +1,51 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Codejam
+{
+     public class BrokenClock
+    {
+        public int FewestClicks(String clockTime, String currentTime)
+        {
+            int clicks = 0;
+            string[] clock = clockTime.Split(':');
+            int clockHour = Convert.ToInt32( clock[0]);
+            int clockMinute = Convert.ToInt32(clock[1]);
+            clock = null;
+            clock = currentTime.Split(':');
+            int currentHour = Convert.ToInt32(clock[0]);
+            int currentMinute = Convert.ToInt32(clock[1]);
+            int hourDiff = currentHour - clockHour;
+            if (hourDiff < 0)
+            {
+                hourDiff = 24 + hourDiff;
+            }
+            clockMinute = clockMinute + hourDiff;
+            if(clockMinute>60)
+            {
+                clockMinute = clockMinute - 60;
+            }
+            int minuteDiff = currentMinute - clockMinute;
+            if(minuteDiff<0)
+            {
+                minuteDiff = 60 + minuteDiff;
+            }
+            clicks = hourDiff + minuteDiff;
+            return clicks;
+        }
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            String input = Console.ReadLine();
+            BrokenClock brokenClock = new BrokenClock();
+            do
+            {
+                string[] values = input.Split(',');
+                Console.WriteLine(brokenClock.FewestClicks(values[0], values[1]));
+                input = Console.ReadLine();
+            } while (input != "-1");
+        }
+        #endregion
+    }
+}

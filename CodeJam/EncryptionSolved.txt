@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+namespace Codejam
+{
+    public class Encryption
+    {
+        public string Encrypt(string test)
+        {
+            int len = test.Length,index,index2,ascii,plusCode=97;
+            char convert;
+            string encryption = "";
+            char[] ch = test.ToCharArray();
+            List<int> list = new List<int>();
+            for(index=0;index<len;index++)
+            {
+                list.Add(ch[index]);
+            }
+            list = list.Distinct().ToList();
+            for(index=0;index<len;index++)
+            {
+                ascii = ch[index];
+                plusCode = 97;
+                for(index2=0;index2<list.Count;index2++)
+                {
+                    if(ascii == list[index2])
+                    {
+                        plusCode = plusCode + index2;
+                        convert = Convert.ToChar(plusCode);
+                        encryption += convert;
+                    }
+                }
+            }
+            return encryption;
+        }
+
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            String input = Console.ReadLine();
+            Encryption encryption = new Encryption();
+            do
+            {
+                Thread th = new Thread(() =>
+                {
+                    try
+                    {
+
+                        string validationOp = encryption.Encrypt(input);
+                        Console.WriteLine(validationOp);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Exception Occured" + ex.ToString());
+                    }
+                });
+                th.Start();
+                if (th.Join(1000) == false)
+                {
+                    Console.WriteLine("Timeout occured");
+                    th.Abort();
+                    return;
+                }
+                input = Console.ReadLine();
+
+            } while (input != "-1");
+        }
+
+        #endregion
+    }
+}

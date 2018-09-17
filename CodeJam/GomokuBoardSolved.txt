@@ -1,0 +1,167 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Collections;
+using System.Text.RegularExpressions;
+using System.Text;
+
+namespace CodeJam
+{
+    public class GomokuBoardChecker
+    {
+        String Check(String[] board)
+        {
+            int row = board.Length, index, index2, index3, Ocont = 0, Xcont = 0, Oinvalid = 0,temp=0;
+            int countO = 0, countX = 0, Owon = 0, Xwon = 0;
+            //Your code goes here
+
+            for (index = 0; index < row; index++)
+            {
+                Ocont = 0;
+                Xcont = 0;
+                for (index2 = 0; index2 < row; index2++)
+                {
+                    if (board[index][index2] == 'O')
+                    {
+                        countO++;
+                    }
+                    else if (board[index][index2] == 'X')
+                    {
+                        countX++;
+                    }
+                    if (board[index][index2] == 'O' && board[index][0] == 'O')
+                    {
+                        Ocont++;
+                    }
+                    else if (board[index][index2] == 'X' && board[index][0] == 'X')
+                    {
+                        Xcont++;
+                    }
+                    else
+                    {
+                        Xcont = 0;
+                        Ocont = 0;
+                    }
+
+                }
+                if (Ocont >= 5)
+                {
+                    Owon++;
+                }
+                if (Xcont >= 5)
+                {
+                    Xwon++;
+                }
+
+                Ocont = 0;
+                Xcont = 0;
+                for (index2 = 0; index2 < row; index2++)
+                {
+                    if (board[index2][index] == 'O' && board[0][index] == 'O')
+                    {
+                        if (Ocont == 4)
+                        {
+                            temp = index;
+                            for (index3 = index2; index3 >=0; index3--)
+                            {
+                                if (temp > 0 && board[index3][temp] == 'O')
+                                {
+                                    Oinvalid++;
+                                }
+                                else
+                                    break;
+                                temp--;
+                            }
+                            if(Oinvalid==5)
+                            {
+                                return "O WON";
+                            }
+                            else if(Oinvalid>5)
+                            {
+                                return "INVALID";
+                            }
+                        }
+                        else
+                        {
+                            Ocont++;
+                        }
+                    }
+                    else if (board[index2][index] == 'X' && board[0][index] == 'X')
+                    {
+                        Xcont++;
+                    }
+                    else
+                    {
+                        Xcont = 0;
+                        Ocont = 0;
+                    }
+                }
+                if (Ocont >= 5)
+                {
+                    Owon++;
+                }
+                if (Xcont >= 5)
+                {
+                    Xwon++;
+                }
+            }
+            Xcont = 0;
+            Ocont = 0;
+            for (index = 0; index < row; index++)
+            {
+                if (board[index][index] == 'O' && board[0][0] == 'O')
+                {
+                    Ocont++;
+                }
+                else if (board[index][index] == 'X' && board[0][0] == 'X')
+                {
+                    Xcont++;
+                }
+            }
+            if (Ocont >= 5)
+            {
+                Owon++;
+            }
+            if (Xcont >= 5)
+            {
+                Xwon++;
+            }
+
+            if (Math.Abs(countO - countX) > 1 || Xwon > 1 || Owon > 1)
+            {
+                return "INVALID";
+            }
+            else if (Xwon == 0 && Owon == 0 && (countO + countX) < row * row)
+            {
+                return "IN PROGRESS";
+            }
+            else if ((countO + countX) == row * row && Xwon == 0 && Owon == 0)
+            {
+                return "DRAW";
+            }
+            else if (Xwon == 1)
+            {
+                return "X WON";
+            }
+            else if (Owon == 1)
+            {
+                return "O WON";
+            }
+
+            return string.Empty;
+        }
+
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            GomokuBoardChecker gomokuBoardChecker = new GomokuBoardChecker();
+            String input = Console.ReadLine();
+            do
+            {
+                Console.WriteLine(gomokuBoardChecker.Check(input.Split(',')));
+                input = Console.ReadLine();
+            } while (input != "-1");
+        }
+        #endregion
+    }
+}

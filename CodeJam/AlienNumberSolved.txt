@@ -1,0 +1,116 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Codejam
+{
+    class AlienNumbers
+    {
+        public string getTargetNumber(string alien_number, string source_language, string target_language)
+        {
+            /*
+                9 0123456789 oF8
+                Foo oF8 0123456789
+                13 0123456789abcdef 01
+                CODE O!CDE? A?JM!.
+             */
+
+            char[] ch = source_language.ToCharArray();
+            List<string> list = new List<string>();
+            string middle="",check="";
+            int alien_len = source_language.Length,count=0,flag=0;
+            int index, index2;
+            for(index=0;index<alien_len;index++)
+            {
+                if(index!=0)
+                {
+                    list.Add(ch[index]+"");
+                    check = list[count];
+                    count++;
+                    if (check == alien_number)
+                    {
+                        flag = 1;
+                        break;
+                    }
+                }
+            }
+            if(flag!=1)
+            for(index=0;index<list.Count;index++)
+            {
+                middle = "";
+                middle += list[index];
+                for(index2=0;index2<alien_len;index2++)
+                {
+                    list.Add(middle+ch[index2]);
+                    check = list[count];
+                    count++;
+                    if (check==alien_number)
+                    {
+                        flag = 1;
+                        break;
+                    }
+                    
+                }
+                if(flag==1)
+                {
+                    break;
+                }
+                
+            }
+            alien_len = target_language.Length;
+            char[] ch2 = target_language.ToCharArray();
+            List<string> list2 = new List<string>();
+            int count2 = -1;
+            for (index = 0; index < alien_len; index++)
+            {
+                if (index != 0)
+                {
+                    list2.Add(ch2[index] + "");
+                    count2++;
+                    check = list2[count2];
+                    if (count2==count-1)
+                    {
+                        return check;
+                    }
+
+                }
+            }
+                for (index = 0; index < list2.Count; index++)
+                {
+                    middle = "";
+                    middle += list2[index];
+                    for (index2 = 0; index2 < alien_len; index2++)
+                    {
+                        list2.Add(middle + ch2[index2]);
+                        count2++;
+                        check = list2[count2];
+                        if (count2 == count-1)
+                        {
+                            return check;
+                        }
+
+                    }
+                }
+
+            for (index = 0; index < list.Count; index++)
+                Console.Write(list[index]+" ");
+            return "";
+        }
+
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            String input = Console.ReadLine();
+            AlienNumbers alienNumbers = new AlienNumbers();
+            int cse = 1;
+            do
+            {
+                var values = input.Split(' ');
+                string validationOp = alienNumbers.getTargetNumber(values[0], values[1], values[2]);
+                Console.WriteLine("Case #{0}: {1}", cse++, validationOp);
+                input = Console.ReadLine();
+            } while (input != "-1");
+        }
+        #endregion
+    }
+}

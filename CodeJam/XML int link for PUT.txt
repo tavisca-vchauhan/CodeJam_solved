@@ -1,0 +1,9 @@
+<int xmlns="http://schemas.microsoft.com/2003/10/Serialization/">30</int> 
+<Hotel xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/HotelBooking.Models">
+            <Address>Viman Nagar ,Pune , Maharashtra</Address>
+            <Id>4</Id>
+            <Name>HDFC</Name>
+            <Pincode>411014</Pincode>
+            <RentPerDay>5000</RentPerDay>
+            <RoomsAvailable>15</RoomsAvailable>
+        </Hotel>

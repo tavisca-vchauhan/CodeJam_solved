@@ -1,0 +1,7 @@
+
+
+
+ input = System.IO.File.ReadAllText(@"C:\Users\Vchauhan\source\repos\CardStraight\input.txt");
+
+
+ git pull remotename branchname

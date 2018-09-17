@@ -1,0 +1,19 @@
+create keyspace sample_db with replication = {'class':'SimpleStrategy','replication_factor':'3'};
+
+create table test_table(id int, name text, salary int, PRIMARY KEY(id));
+
+ALTER TABLE sample_db.test_table add age int;
+
+INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) 
+VALUES (200, 'placeholder', '2015-05-27', '2015-05-27') ;
+
+
+ALTER TABLE sample_db.test_table add unique timeuuid;
+
+INSERT INTO sample_db.test_table(id ,name , salary, unique) 
+VALUES (2, 'vishwas',4500 ,now()); 
+
+
+
+
+

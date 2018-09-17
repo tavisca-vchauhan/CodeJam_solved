@@ -1,0 +1,77 @@
+﻿using System;
+
+namespace CodeJam
+{
+    class ACGT
+    {
+        int MinChanges(int maxPeriod, string[] acgt)
+        {
+            string s = "";
+            int count = 0, min = 10000000, index, index2,index3,replacement=0,countA,countC,countG,countT, count2;
+            int length = acgt.Length;
+            for (index = 0; index < length; index++)
+                s= s + acgt[index];
+            char[] ch = s.ToCharArray();
+            length = ch.Length;
+            for(index=1; index<=maxPeriod;index++)
+            {
+                replacement = 0;
+                for(index2=0;index2<index;index2++)
+                {
+                    countA = 0;
+                    countC = 0;
+                    countG = 0;
+                    countT = 0;
+                    index3 = index2;
+                    while(index3<length)
+                    {
+                        if(ch[index3]=='A')
+                        {
+                            countA++;
+                        }
+                        if (ch[index3] == 'C')
+                        {
+                            countC++;
+                        }
+                        if (ch[index3] == 'G')
+                        {
+                            countG++;
+                        }
+                        if (ch[index3] == 'T')
+                        {
+                            countT++;
+                        }
+                        index3 += index;
+                    }
+                    count = (countA > countC) ? countA : countC;
+                    count2 = (countG > countT) ? countG : countT;
+                    count = (count > count2) ? count : count2;
+                    replacement = replacement + (countA + countC + countG + countT - count);
+                    //Console.WriteLine("countA= {0} , countC={1} countG={2} , countT = {3} , replacement = {4} , period={5} , iteration = {6}", countA, countC, countG, countT, replacement, index, index2);
+
+                }
+                if (min>replacement)
+                {
+                    min = replacement;
+                }
+            }
+            return min;
+        }
+
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            ACGT aCGT = new ACGT();
+            String input = Console.ReadLine();
+            do
+            {
+                var inputParts = input.Split('|');
+                int maxPeriod = int.Parse(inputParts[0]);
+                string[] acgt = inputParts[1].Split(',');
+                Console.WriteLine(aCGT.MinChanges(maxPeriod, acgt));
+                input = Console.ReadLine();
+            } while (input != "-1");
+        }
+        #endregion
+    }
+}

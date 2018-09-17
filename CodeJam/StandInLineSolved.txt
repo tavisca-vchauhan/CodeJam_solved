@@ -1,0 +1,81 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Codejam
+{
+    class StandInLine
+    {
+        int[] Reconstruct(int[] left)
+        {
+            int[] final = left;
+            //Your code goes here
+            int length = final.Length, index, index2, count, countAdd, increaseValue, index3;
+            List<int> list = new List<int>();
+            List<int> finalList = new List<int>();
+            int[] local = new int[length];
+            for (index = 0; index < length; index++)
+            {
+                count = 0;
+                for (index2 = 0; index2 < length; index2++)
+                {
+                    if (final[index2] == index)
+                    {
+                        count++;
+                        list.Add(index2 + 1);
+                    }
+                }
+                index3 = count;
+                countAdd = 0;
+                increaseValue = 0;
+                if (count > 0 && index!=0)
+                    for (index2 = 0; index2 <=finalList.Count; index2++)
+                    {                      
+                        if (finalList[index2] > list[count-1])
+                        {
+                            increaseValue++;
+                            if (increaseValue == index)
+                            {
+                                finalList.Insert(index2+1, list[count-1]);
+                                count--;
+                                increaseValue = 0;
+                                index2 = -1;
+                                list.RemoveAt(count);
+                            }
+                        }
+                        if (count == 0)
+                        {
+                            increaseValue = 0;
+                            break;
+                        }
+                    }
+                if (index == 0)
+                    {
+                        for (index2 = 0; index2 < list.Count; index2++)
+                        {
+                            finalList.Add(list[index2]);
+                        }
+                    }
+                    list.Clear();
+                }
+                for (index = 0; index < finalList.Count; index++)
+                {
+                    final[index] = finalList[index];
+                }
+                return final;
+            }
+            #region Testing code Do not change
+            public static void Main(String[] args)
+            {
+                String input = Console.ReadLine();
+                StandInLine standInLine = new StandInLine();
+                do
+                {
+                    int[] left = Array.ConvertAll<string, int>(input.Split(','), delegate (string s) { return Int32.Parse(s); });
+                    Console.WriteLine(string.Join(",", Array.ConvertAll<int, string>(standInLine.Reconstruct(left), delegate (int s) { return s.ToString(); })));
+                    input = Console.ReadLine();
+                } while (input != "-1");
+            }
+            #endregion
+        }
+    }

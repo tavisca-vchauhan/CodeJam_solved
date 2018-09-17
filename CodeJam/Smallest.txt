@@ -1,0 +1,45 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Codejam
+{
+    class SmallestNumber
+    {
+        public int GetSmallestNumber(int number)
+        {
+            int binaryWeight=0,binaryWeightCheck=0,index,Number=number;
+            binaryWeight= WeightCount(number);
+            for(index= Number+1;;index++)
+            {
+                binaryWeightCheck = WeightCount(index);
+                if (binaryWeight == binaryWeightCheck)
+                    return index;
+            }
+        }
+        int WeightCount(int digit)
+        {
+            int weight = 0;
+            while(digit>0)
+            {
+                digit&=(digit-1);
+                weight++;
+            }
+            return weight;
+        }
+
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            String input = Console.ReadLine();
+            SmallestNumber smallestNumber = new SmallestNumber();
+            do
+            {
+                int validationOp = smallestNumber.GetSmallestNumber(int.Parse(input));
+                Console.WriteLine(validationOp);
+                input = Console.ReadLine();
+            } while (input != "-1");
+        }
+        #endregion
+    }
+}

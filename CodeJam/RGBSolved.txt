@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Codejam
+{
+    class RGB
+    {
+        int GetLeast(string[] picture)
+        {
+            //Your code goes here
+            int index, index2, count = 0, finalCount=0;
+            int rows = picture.Length;
+            char r='R', b='B', g='G',preChar='.';
+            int col = picture[0].Length;
+            for(index=0;index<rows;index++)
+            {
+                count = 0;
+                for(index2=0;index2<col;index2++)
+                {
+                   if( (picture[index][index2]==r|| picture[index][index2]==g) && (preChar!=r && preChar!=g) )
+                    {
+                        count++;
+                        preChar = r;
+                    }
+                    else
+                    {
+                        preChar = picture[index][index2];
+                    }
+
+                }
+                preChar = '.';
+                finalCount += count;
+
+            }
+            for (index = 0; index < col; index++)
+            {
+                count = 0;
+                for (index2 = 0; index2 < rows; index2++)
+                {
+                    if ((picture[index2][index] == b || picture[index2][index] == g) && (preChar != b && preChar != g))
+                    {
+                        count++;
+                        preChar = b;
+                    }
+                    else
+                    {
+                        preChar = picture[index2][index];
+                    }
+
+                }
+                preChar = '.';
+                finalCount+= count;
+
+            }
+
+            return finalCount;
+        }
+
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            String input = Console.ReadLine();
+            RGB rgbSolver = new RGB();
+            do
+            {
+                string[] picture = input.Split(',');
+                Console.WriteLine(rgbSolver.GetLeast(picture));
+                input = Console.ReadLine();
+            } while (input != "-1");
+        }
+        #endregion
+    }
+}

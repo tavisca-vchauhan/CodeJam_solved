@@ -1,0 +1,10 @@
+﻿<City xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/GeoLocationHotel.Models">
+    <address>pune</address>
+    <latitude>18.5204303</latitude>
+    <longitude>73.8567437</longitude>
+</City>
+
+
+API key =   AIzaSyBOjs6ak3PinIYUN-ZbV-2YrZSrAyUk6ns
+
+

@@ -1,0 +1,100 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Collections;
+using System.Text.RegularExpressions;
+using System.Text;
+
+namespace CodeJam
+{
+    class Pool
+    {
+        int RackMoves(int[] triangle)
+        {
+            //Your code goes here
+            int index,firstMatch=0,secondMatch=0;
+            string First = "OXXO8OXOXOOXOXX",
+                    Second="XOOX8XOXOXXOXOO";
+            List<string> list = new List<string>();
+            for(index=0;index<15;index++)
+            {
+                if (First[index] == 'O' && triangle[index] < 8)
+                {
+                    firstMatch++;
+                }
+                else if (First[index] == 'X' && triangle[index] >8)
+                {
+                    firstMatch++;
+                }
+                else if (Second[index] == 'O' && triangle[index] < 8)
+                {
+                    secondMatch++;
+                }
+                else if (Second[index] == 'X' && triangle[index] > 8)
+                {
+                    secondMatch++;
+                }
+                else if(Second[index] == '8' && triangle[index]== 8)
+                {
+                    secondMatch++;
+                }
+                else if(First[index] == '8' && triangle[index]==8)
+                {
+                    firstMatch ++;
+                }
+            }
+            if (firstMatch < secondMatch)
+            {
+                First = Second;
+            }
+
+            Second = "";
+            for (index = 0; index < 15; index++)
+            {
+                if (First[index] == 'O' && triangle[index] > 8)
+                {
+                    Second = index +""+ First[index] +""+ triangle[index] + "";
+                    list.Add(Second);
+                }
+                else if (First[index] == 'X' && triangle[index] < 8)
+                {
+                    Second = index +""+ First[index] +""+ triangle[index] + "";
+                    list.Add(Second);
+                }
+                else if (First[index] == '8' && triangle[index]!= 8)
+                {
+                    Second = index +""+ First[index] +""+ triangle[index] + "";
+                    list.Add(Second);
+                }
+                else if(triangle[index]==8)
+                {
+                    Second = index + "" + First[index] + "" + triangle[index] + "";
+                    list.Add(Second);
+                }
+            }
+            for(index=0;index<list.Count;index++)
+            {
+                if(list[index]=="488")
+                {
+                    return (list.Count-1)/ 2;
+                }
+            }
+            return (list.Count + 1) / 2 ;
+        }
+
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            Pool pool = new Pool();
+            String input = Console.ReadLine();
+            do
+            {
+                int[] triangle = Array.ConvertAll<string, int>(input.Split(','), delegate (string s) { return Int32.Parse(s); });
+                Console.WriteLine(pool.RackMoves(triangle));
+                input = Console.ReadLine();
+            } while (input != "-1");
+        }
+        #endregion
+
+    }
+}

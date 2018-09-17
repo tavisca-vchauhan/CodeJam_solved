@@ -1,0 +1,224 @@
+using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.Text.RegularExpressions;
+using System.Text;
+
+namespace Codejam
+{
+    class CreatePairs
+    {
+        int MaximalSum(int[] data)
+        {
+            int sum = 0, length = data.Length, pro=0, positiveLength=0, negativeLength=0,index,index2,count=1;
+            if (data.Length == 0)
+                Console.WriteLine("Enter More than one Value");
+            for (index = 0; index < length; index++)
+            {
+                for (index2 = 0; index2 < length; index2++)
+                {
+                    if (data[index2] > data[index])
+                    {
+                        pro = data[index];
+                        data[index] = data[index2];
+                        data[index2] = pro;
+                    }
+                }
+            }
+            if(length==1)
+            {
+                pro = data[0];
+            }
+            else if (length % 2 == 0)
+            {
+                pro = 0;
+                for (index = 0; index < length; index += 2)
+                {
+                    if ((data[index] < 0 && data[index + 1] < 0) || (data[index] < 0 && data[index + 1] == 0))
+                    {
+
+                        pro += data[index] * data[index + 1];
+                    }
+                    else if (data[index] < 0 && data[index + 1] > 0)
+                    {
+                        pro += data[index] + data[index + 1];
+                    }
+                    else if (data[index] == 1 && data[index] == data[index + 1])
+                    {
+                        pro += data[index] + data[index + 1];
+                    }
+                    else if (data[index] == 0 || data[index]==1)
+                    {
+                        pro += data[index] + data[index + 1];
+                    }
+                    else
+                    {
+                        pro += data[index] * data[index + 1];
+
+                    }
+                }
+            }
+            else
+            {
+                pro = 0;
+                for (index = 0; index < length; index += 2)
+                {
+                    if(length<=index+1 && data[index]<0)
+                    {
+                        pro += data[index];
+                        return pro;
+                    }
+                    else if (data[index] < 0 && data[index + 1] < 0)
+                    {
+                        pro += data[index] * data[index + 1];
+                        negativeLength += 2;
+                    }
+                    else if (data[index] < 0 && data[index + 1] == 0)
+                    {
+                        pro += data[index] * data[index + 1];
+                        negativeLength += 2;
+                        break;
+                    }
+                    else if (data[index] < 0 && data[index + 1] > 0)
+                    {
+                        pro += data[index] + data[index + 1];
+                        negativeLength += 2;
+                        break;
+                    }
+                    else
+                        break;
+                }
+                positiveLength = length - negativeLength;
+                if(negativeLength==0)
+                {
+                    
+                    for (index = 0; index < length; index++)
+                    {
+                        for (index2 = 0; index2 < length; index2++)
+                        {
+                            if (data[index2] < data[index])
+                            {
+                                pro = data[index];
+                                data[index] = data[index2];
+                                data[index2] = pro;
+                            }
+                        }
+                    }
+                    pro = 0;
+                    for(index=0;index<length;index+=2)
+                    {
+                        if (length == index + 1 )
+                        {
+                            pro += data[index];
+                            return pro;
+                        }
+                        else if(data[index] == 1 || data[index]==0 ||data[index+1]==1 || data[index+1]==0)
+                        {
+                            pro += data[index] + data[index + 1];
+                        }
+                        else
+                        pro += data[index] * data[index + 1];
+                    }
+
+                }
+                else if (positiveLength == 1)
+                    pro += data[negativeLength];
+                else if ((positiveLength) % 2 != 0 && positiveLength>0)
+                {
+
+                    // Console.WriteLine(positiveLength+"  "+negativeLength +" " +pro);
+
+                    if (data[negativeLength] == 1 && data[negativeLength + 1] == 1)
+                    {
+
+                     for (index = negativeLength; index < length; index += 2)
+                      {
+                        if (length <= index + 1 && data[index] >=0)
+                        {
+                            //Console.WriteLine(index + "  " + length + " " + pro);
+                            pro += data[index];
+                                return pro;
+                        }
+                        else if (data[index] == 0|| data[index]==1)
+                        {
+                            pro += data[index] + data[index + 1];
+                        }
+                        else if (data[index] == 1 && data[index] == data[index + 1])
+                        {
+                            pro += data[index] + data[index + 1]; 
+                        }
+                        else
+                        {
+                            pro += data[index] * data[index + 1];
+
+                        }
+                      }
+                    }
+                    else
+                    {
+                        for (index = length-1; index >negativeLength+1; index -= 2)
+                        {
+                            //if (length <= index + 1 && data[index] >= 0)
+                            //{
+                            //    //Console.WriteLine(index + "  " + length + " " + pro);
+                            //    pro += data[index];
+                            //}
+                            //else
+                            if (data[index] == 0)
+                            {
+                                pro += data[index] + data[index - 1];
+                            }
+                            else if (data[index] == 1|| data[index-1]==1 )
+                            {
+                                pro += data[index] + data[index - 1];
+                            }
+                            else
+                            {
+                                pro += data[index] * data[index - 1];
+
+                            }
+                        }
+                        pro += data[index];
+                    }
+                }
+                                   
+                if ((positiveLength) % 2 == 0 && positiveLength>0)
+                {
+                    for (index = negativeLength; index < length; index += 2)
+                    {
+                        if (data[index] == 1 && data[index] == data[index + 1])
+                        {
+                            pro += data[index] + data[index + 1];
+                        }
+                        else if (data[index] == 0 || data[index]==1)
+                        {
+                            pro += data[index] + data[index + 1];
+                        }
+                        else
+                        {
+                            pro += data[index] * data[index + 1];
+
+                        }
+                    }
+
+                }
+            }
+                sum = pro;
+            return sum;
+        }
+
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            String input = Console.ReadLine();
+            CreatePairs createPairs = new CreatePairs();
+            do
+            {
+                int[] data = Array.ConvertAll<string, int>(input.Split(','), delegate (string s) { return Int32.Parse(s); });
+                Console.WriteLine(createPairs.MaximalSum(data));
+                input = Console.ReadLine();
+            } while (input != "*");
+        }
+        #endregion
+    }
+}

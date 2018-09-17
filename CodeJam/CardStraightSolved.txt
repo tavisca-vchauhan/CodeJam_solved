@@ -1,0 +1,119 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Codejam
+{
+    class CardStraights
+    {
+        int index, index2,pro,count=0,max=0,seq=1;
+        int LongestStraight(int[] cards)
+        {
+            count = 0;
+            seq = 1;
+            max = 0;
+            int length = cards.Length;
+            for (index = 0; index < length; index++)
+            {
+                for (index2 = 0; index2 < length; index2++)
+                {
+                    if (cards[index2] > cards[index])
+                    {
+                        pro = cards[index];
+                        cards[index] = cards[index2];
+                        cards[index2] = pro;
+                    }
+                }
+            }
+
+            for(index=0;index<length;index++)
+            {
+                if (cards[index] == 0)
+                    count++;
+              //  Console.Write(" "+cards[index]);
+            }
+            pro = count;
+            for(index=pro;index<length-1;index++)
+            { 
+                if((cards[index+1] -cards[index])==1)
+                {
+                    seq++;
+                  //  Console.WriteLine("  number={0}  diff = 1 & seq ={1} " ,cards[index],seq);
+                }
+                else if( (cards[index + 1] - cards[index] == 2)  && count >= 1)
+                {
+                    count--;
+                    seq+=2;
+                  //  Console.WriteLine("  number={0}  diff = 2 & seq ={1} count = {2}" ,cards[index], seq,count);
+                }
+                else if (cards[index + 1] - cards[index] == 0)
+                {
+                   // Console.WriteLine("  number={0}  diff = 0 & seq ={1} ", cards[index], seq);
+                }
+                else if ((cards[index + 1] - cards[index]) <= count + 1)
+                {
+                     count = count - (cards[index + 1] - cards[index] -1 );
+                     seq = seq + (cards[index + 1] - cards[index] );
+                   
+                   // Console.WriteLine("  number={0}  diff <= {3} & seq ={1}  count = {2}" ,cards[index], seq , count,count+1);
+                }  
+                else if ((cards[index + 1] - cards[index])>2 && count==1)
+                {
+                    count = 0;
+                    seq = seq + 1;
+                    index--;
+
+                  //  Console.WriteLine("  number={0}  diff = > 2 & seq ={1}  count = {2}", cards[index], seq, count);
+                }
+                else
+                {
+                    if(max<seq)
+                    {
+                        max = seq + count;
+                    }
+                 //   Console.WriteLine("  number={0}  diff = Else & seq ={1} " ,cards[index], seq);
+                    
+                    seq = 1;
+                    count = pro;
+                   
+                }
+            }
+            if(pro==length-1)
+            {
+                seq = seq + count;
+            }
+            else if (count != 0 && (length-count)!=0)
+            {
+                seq = seq + count;
+            }
+            else if (count != 0)
+            {
+                seq = seq + count-1;
+            }
+            
+            if (max < seq)
+            {
+                max = seq;
+            }
+
+            return max;
+        }
+
+
+
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            String input = Console.ReadLine();
+            CardStraights cardStraights = new CardStraights();
+            do
+            {
+                int[] cards = Array.ConvertAll<string, int>(input.Split(','), delegate (string s) { return Int32.Parse(s); });
+                Console.WriteLine(cardStraights.LongestStraight(cards));
+                input = Console.ReadLine();
+            } while (input != "-1");
+        }
+        #endregion
+    }
+}
+

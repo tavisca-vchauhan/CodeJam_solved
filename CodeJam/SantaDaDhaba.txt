@@ -1,0 +1,107 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Codejam
+{
+    class SantaDaDhaba
+    {        
+        int MaxDays(string[] prices, int budget)
+        {
+            int daysToBeReturn = 0, sum = 0,index = 0,index2, index4, priceLength=prices.Length,valueLength=prices[0].Length, min = 10000;
+            char[][] ascii =new char[priceLength][];
+            for (index=0;index<priceLength;index++)
+            {
+                ascii[index] = prices[index].ToCharArray();
+            }
+            int[][] asciiValue = new int[ascii.Length][];
+            int[] chooserIndex = new int[asciiValue.Length];
+            for (index = 0; index < priceLength; index++)
+            {
+                asciiValue[index] = new int[ascii[index].Length];
+                for (index2 = 0; index2 < ascii[index].Length; index2++)
+                {
+                    asciiValue[index][index2] = GetValue(ascii[index][index2]);
+                }
+            }
+            for (index = 0; index < 7; index++)
+            {
+               if (index == asciiValue.Length)
+                {
+                    break;
+                }
+                chooserIndex[index] = 9999;
+                for (index2 = 0; index2 < asciiValue[index].Length; index2++)
+                {
+                    if (asciiValue[index][index2] < chooserIndex[index])
+                    {
+                        chooserIndex[index] = asciiValue[index][index2];
+                    }
+                }
+
+                sum = sum + chooserIndex[index];
+                if (budget >= sum)
+                {
+                    daysToBeReturn++;
+                }
+            }
+
+
+            int index3 = 0;
+            for (index2 = index; index2 < asciiValue.Length; index2++)
+            {
+                min = 10000;
+                for (index4= 0; index4 < asciiValue[index2].Length; index4++)
+                {
+                    int value = 0;
+                    index3 = index2 % 7;
+                    for (int temp = index3; temp <= index2; temp++)
+                    {
+                        value = value + asciiValue[temp][index4];
+                        temp = temp + 6;
+                    }
+                    if (value < min)
+                    {
+                        min = value;
+                    }
+                }
+                index3 = index3 % 7;
+                if (budget >= min + sum - chooserIndex[index3])
+                {
+                    daysToBeReturn++;
+                    budget = budget - min + chooserIndex[index3];
+                    chooserIndex[index2 % 7] = min;
+                }
+                else
+                    return daysToBeReturn;
+
+            }
+            return daysToBeReturn;
+        }
+        int GetValue(char x)
+        {
+            if (char.IsDigit(x))
+                return x - 48;
+            else if (char.IsUpper(x))
+                return x - 55;
+            else
+                return x - 61;
+        }
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            String input = Console.ReadLine();
+            SantaDaDhaba dhaba = new SantaDaDhaba();
+
+            do
+            {
+                var inputParts = input.Split('|');
+                string[] prices = inputParts[0].Split(',');
+                Console.WriteLine(dhaba.MaxDays(prices, Int32.Parse(inputParts[1])));
+                input = Console.ReadLine();
+            } while (input != "-1");
+        }
+        #endregion
+    }
+}

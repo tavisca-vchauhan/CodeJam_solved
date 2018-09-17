@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Codejam
+{
+    class FriendScore
+    {
+        public int HighestScore(string[] friends)
+        {
+            int index,index2,maxScore=0,index3,score;
+            int colLen = friends.Length,rowLen=friends[0].Length;
+            List<int> list = new List<int>();
+            for(index=0;index<colLen;index++)
+            {
+                for(index2=0;index2<rowLen;index2++)
+                {
+                    if(friends[index][index2]=='Y')
+                    {
+                        for (index3 = 0; index3 < rowLen; index3++)
+                        {
+                            if (friends[index2][index3] == 'Y')
+                            {
+                                list.Add(index3);
+                            }
+                        }
+                    }
+                }
+                list= list.Distinct().ToList();
+                score = list.Count - 1;
+                if (score>maxScore)
+                {
+                    maxScore =score ;
+                }
+                list.Clear();
+            }
+            return maxScore;
+        }
+
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            String input = Console.ReadLine();
+            FriendScore friendScore = new FriendScore();
+            do
+            {
+                string[] values = input.Split(',');
+                int validationOp = friendScore.HighestScore(values);
+                Console.WriteLine(validationOp);
+                input = Console.ReadLine();
+            } while (input != "-1");
+        }
+        #endregion
+    }
+}

@@ -1,0 +1,140 @@
+using System;
+using System.Linq;
+
+namespace CodeJam
+{
+    class LeftOrRight
+    {
+        int MaxDistance(string program)
+        {
+
+            char[] ch = program.ToCharArray();
+           // string rev="";
+            
+            int  length = ch.Length,max1=0,index,countL=0,countR=0,countQ=0,count,min1=0,R=0,L=0,min2=0,max2=0;
+
+            //for (index = ch.Length - 1; index > -1; index--)
+            //{
+            //    rev += ch[index];
+            //}
+           // char[] chRev = rev.ToCharArray();
+            
+            //for (index = 0; index < length; index++)
+            //    {
+            //         if(ch[index]=='L')
+            //         {
+            //            countL++;
+            //         }
+            //         else if(ch[index]=='R')
+            //         {
+            //            countR++;
+            //         }
+            //         else
+            //          {
+            //        countQ++;
+            //          }
+            //    }
+            //if (countQ > countL || countQ > countR)
+            //{
+
+            //    if (countL > countR)
+            //    {
+            //        max1 = countL - countR;
+            //    }
+            //    else if (countR > countL)
+            //    {
+            //        max1 = countR - countL;
+            //    }
+            //    else if (countL == countR)
+            //    {
+            //        max1 = countL;
+            //    }
+            //    max1 = max1 + countQ;
+            //}
+            //else
+            //{
+
+
+
+                max1 = 0;
+                count = 0;
+                L = 1;
+                R = -1;
+                for (index = 0; index < length; index++)
+                {
+                    if (ch[index] == 'L' || ch[index] == '?')
+                    {
+                        count++;
+                    }
+                    else
+                    {
+                        count--;
+                    }
+                    if (count > max1)
+                    {
+                        max1 = count;
+                    }
+                    if (min1 > count)
+                    {
+                        min1 = count;
+                    }
+                   // Console.Write("min = {0} , max= {1}", min1, max1);
+                }
+
+
+                max2 = 0;
+                count = 0;
+                L = -1;
+                R = 1;
+                for (index = 0; index < length; index++)
+                {
+                    if (ch[index] == 'R' || ch[index] == '?')
+                    {
+                        count++;
+                    }
+                    else
+                    {
+                        count--;
+                    }
+                    if (count > max2)
+                    {
+                        max2 = count;
+                    }
+                    if (min2 > count)
+                    {
+                        min2 = count;
+                    }
+                   // Console.Write("min2 = {0} , max2= {1}", min2, max2);
+                }
+
+
+            
+           
+                min1 = min1 * (-1);
+                if (min1 > max1)
+                    max1 = min1;
+                min2 = min2 * (-1);
+                if (min2 > max2)
+                    max2 = min2;
+
+            if (max2 > max1)
+                max1 = max2;
+
+
+            return max1;
+        }
+
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            LeftOrRight leftOrRight = new LeftOrRight();
+            String input = Console.ReadLine();
+            do
+            {
+                Console.WriteLine(leftOrRight.MaxDistance(input));
+                input = Console.ReadLine();
+            } while (input != "-1");
+        }
+        #endregion
+    }
+}

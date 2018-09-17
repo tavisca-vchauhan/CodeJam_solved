@@ -1,0 +1,52 @@
+using System;
+using System.Collections.Generic;
+
+namespace CodeJam
+{
+    class BinaryPolynomial
+    {
+        int CountRoots(int[] a)
+        {
+            //Your code goes here
+            int roots = 0, index1, index2, sum;
+            int length = a.Length;
+            if (length > 1)
+            {
+                for (index1 = 0; index1 < 2; index1++)
+                {
+                    sum = 0;
+                    for (index2 = 1; index2 < length; index2++)
+                    {
+                        sum += index1 * a[index2];
+                    }
+                    sum += a[0];
+                    if (sum % 2 == 0)
+                        roots++;
+
+                }
+
+            }
+            else
+                return 0;
+
+
+
+            return roots;
+        }
+
+        #region Testing code Do not change
+        public static void Main(String[] args)
+        {
+            BinaryPolynomial binaryPolynomial = new BinaryPolynomial();
+            String input = Console.ReadLine();
+            do
+            {
+                int[] a = Array.ConvertAll<string, int>(input.Split(','), delegate (string s) { return Int32.Parse(s); });
+                Console.WriteLine(binaryPolynomial.CountRoots(a));
+                input = Console.ReadLine();
+            } while (input != "-1");
+        }
+        #endregion
+
+    }
+}
